@@ -11,7 +11,7 @@
 | Category | Status | Details |
 |----------|--------|---------|
 | **Project-Wide** | On Track | Parallel execution model: Track A (docs) and Track B (prototyping) proceeding independently |
-| **Phase 0/1 Completion** | In Progress | 14 core documents + 1 research report complete; D-21 is next; 1 blocked (D-15); 5 deferred to Phase 2+ |
+| **Phase 0/1 Completion** | In Progress | 16 core documents + 1 research report complete; D-23 is next; 1 blocked (D-15); 5 deferred to Phase 2+ |
 | **Critical Path** | Healthy | Multi-layer enrichment hypothesis validation on schedule (D-23 is go/no-go point) |
 | **Technology Stack** | Updated | .NET 10 LTS, nomic-embed-text-v2-moe, aligned with Microsoft.Extensions.AI ecosystem |
 | **Risk Level** | Medium | Scope creep and model performance are the main concerns; mitigations in place |
@@ -38,8 +38,10 @@ All foundational documents complete:
 
 - **R-01-02-03:** Research Findings (v1.0, ~550 lines) — ✅ **COMPLETE** — Pre-prototyping due diligence for three research tasks. R-01: nomic-embed-text-v2-moe has 512-token context window (CRITICAL — not 8,192 as previously assumed). R-02: Hybrid Semantic + Fixed-Window chunking recommended. R-03: ChromaDB metadata filtering viable with JSON serialization workaround for arrays. Master Strategy and Design Proposal amended.
 - **D-20:** Test Corpus Preparation (v1.0, ~530 lines) — ✅ **COMPLETE** — 67-file Aethelgard corpus assessed (388K words). Frontmatter audit (92/100 quality score). D-10 schema alignment gap analysis with field mapping strategy. 36 ground-truth queries across 5 types (single-hop, multi-hop, authority-sensitive, temporal-scoped, exploratory). Coverage gap analysis.
+- **D-21:** Notebook 1: Model Selection & Embedding Baseline (v1.0, ~3300 lines) — ✅ **COMPLETE** — Full notebook specification with 22 cells (copy-paste-ready Python + Markdown). Three-model comparison (v2-moe, v1.5, BGE-M3). Hybrid Semantic + Fixed-Window chunking engine. 36 ground-truth queries with IR metrics (Precision@5, Recall@10, NDCG@10, MRR). Weighted decision matrix for model selection. UMAP embedding visualization. ChromaDB persistence for D-22 inheritance. **Executable `.ipynb` generated:** `D21-baseline.ipynb` (103KB, 22 cells).
+- **D-22:** Notebook 2: Single-Layer Enrichment (v1.0, ~2900 lines) — ✅ **COMPLETE** — Full notebook specification with 22 cells. Adds single-layer enrichment prefix ("This is a {type} document about {name}. Canon status: {canon}.") to each chunk before embedding. Reuses D-21's entire infrastructure. Delta analysis vs. D-21 baseline with Wilcoxon signed-rank significance testing. Parameterized model selection (SELECTED_MODEL constant, default v1.5). **Executable `.ipynb` generated:** `D22-single-layer.ipynb` (83KB, 22 cells).
 
-These 14 documents plus 1 research report represent complete Phase 0 foundation work, all five Track A documents (D-10 through D-14), and Track B preparation (R-01-03, D-20).
+These 16 documents plus 1 research report represent complete Phase 0 foundation work, all five Track A documents (D-10 through D-14), and Track B preparation through first two notebooks (R-01-03, D-20, D-21, D-22).
 
 ---
 
@@ -73,9 +75,9 @@ These 14 documents plus 1 research report represent complete Phase 0 foundation 
 
 | Document | Status | Dependencies | Effort | Notes |
 |-----------|--------|-------------|--------|-------|
-| **D-20** | READY | D-02 ✅ | 3-4 days | Test Corpus Preparation — export from Notion, add frontmatter, ground-truth annotations |
-| **D-21** | Blocked on D-20 | D-20 | 1-2 days | Notebook 1: Baseline RAG evaluation |
-| **D-22** | Blocked on D-21 | D-21 | 1-2 days | Notebook 2: Single-layer enrichment |
+| **D-20** | ✅ DONE | D-02 ✅ | ~530 lines | Test Corpus Preparation — 67-file corpus audit, field mapping, 36 ground-truth queries |
+| **D-21** | ✅ DONE | D-20 ✅ | ~3300 lines | Notebook 1: Model Selection & Embedding Baseline — 22-cell spec, 3-model comparison, chunking engine, evaluation pipeline |
+| **D-22** | ✅ DONE | D-21 ✅ | ~2900 lines | Notebook 2: Single-Layer Enrichment — 22-cell spec + .ipynb, delta analysis vs D-21, Wilcoxon significance test |
 | **D-23** | Blocked on D-22 | D-22 | 2-3 days | **Notebook 3: Multi-layer enrichment** — GO/NO-GO POINT |
 | **D-24** | Blocked on D-23 | D-23 | 1-2 days | Notebook 4: Layer ablation (parallelizable with D-25) |
 | **D-25** | Blocked on D-23 | D-23 | 2-3 days | Notebook 5: Embedding strategy comparison (parallelizable with D-24) |
@@ -114,9 +116,9 @@ TRACK A: CHRONICLE DOCUMENTATION (Phase 1, Deterministic) ✅ ALL ACTIONABLE DOC
 └─ D-15: Integration Design ← D-10 ✅, D-02 ✅, TRACK B RESULTS [BLOCKED]
 
 TRACK B: FRACTALRECALL PROTOTYPING (Phase 0/1, Empirical)
-├─ D-20: Test Corpus ← D-02 ✅
-│  └─ D-21: Notebook 1 (Baseline)
-│     └─ D-22: Notebook 2 (Single-Layer)
+├─ D-20: Test Corpus ✅ ← D-02 ✅
+│  └─ D-21: Notebook 1 (Baseline) ✅
+│     └─ D-22: Notebook 2 (Single-Layer) ✅
 │        └─ D-23: Notebook 3 (Multi-Layer) ← GO/NO-GO DECISION POINT
 │           ├─ D-24: Notebook 4 (Ablation)    [CAN PARALLELIZE]
 │           └─ D-25: Notebook 5 (Strategy)    [CAN PARALLELIZE]
@@ -146,9 +148,9 @@ PHASE 2+ (DEFERRED)
 | D-13 | CLI Command Reference | CHR | ✅ DONE | Medium | D-10 ✅, D-11 ✅, D-12 ✅ | None | ~1670 lines | 12 commands across 3 phases, exit codes, output formats, configuration reference |
 | D-14 | LLM Integration Specification | CHR | ✅ DONE | Medium | D-01 ✅ | None | ~1770 lines | 4 LLM features, prompt templates, response schemas, parsing, reports. OQ-5 resolved. |
 | D-15 | Integration Design Document | Both | 🔴 BLOCKED | Low | D-10, D-02, Track B | None | ~300 lines | How Chronicle consumes FractalRecall (waits on D-23 go/no-go) |
-| D-20 | Test Corpus Preparation | FR | ✅ DONE | High | D-02, D-10 ✅ | D-21 | ~530 lines | Corpus audit (67 files, 388K words), D-10 alignment analysis, field mapping strategy, 36 ground-truth queries across 5 types. Critical finding: corpus uses different field names than D-10 (mapping layer needed). |
-| D-21 | Notebook 1: Baseline RAG | FR | 🔵 BLOCKED | High | D-20 | D-22 | 1-2 days | Standard RAG baseline on Aethelgard corpus |
-| D-22 | Notebook 2: Single-Layer Enrichment | FR | 🔵 BLOCKED | High | D-21 | D-23 | 1-2 days | Contextual Retrieval replication |
+| D-20 | Test Corpus Preparation | FR | ✅ DONE | High | D-02, D-10 ✅ | D-21 ✅ | ~530 lines | Corpus audit (67 files, 388K words), D-10 alignment analysis, field mapping strategy, 36 ground-truth queries across 5 types. Critical finding: corpus uses different field names than D-10 (mapping layer needed). |
+| D-21 | Notebook 1: Model Selection & Embedding Baseline | FR | ✅ DONE | High | D-20 ✅ | D-22 | ~3300 lines | 22-cell notebook spec: 3-model comparison (v2-moe, v1.5, BGE-M3), Hybrid Semantic + Fixed-Window chunking, 36-query evaluation, weighted model selection decision matrix, UMAP visualization, ChromaDB persistence |
+| D-22 | Notebook 2: Single-Layer Enrichment | FR | ✅ DONE | High | D-21 ✅ | D-23 | ~2900 lines | Single-layer enrichment prefix, delta analysis vs D-21 baseline, Wilcoxon significance test, parameterized model selection |
 | D-23 | Notebook 3: Multi-Layer Enrichment | FR | 🔵 BLOCKED | **CRITICAL** | D-22 | D-24, D-25, D-27 | 2-3 days | **GO/NO-GO POINT** — determines FractalRecall scope |
 | D-24 | Notebook 4: Layer Ablation | FR | 🔵 BLOCKED | High | D-23 | D-27 | 1-2 days | Identify valuable layers (can parallelize with D-25) |
 | D-25 | Notebook 5: Strategy Comparison | FR | 🔵 BLOCKED | High | D-23 | D-27 | 2-3 days | Prefix vs. Multi-Vector vs. Hybrid (can parallelize with D-24) |
@@ -204,15 +206,17 @@ PHASE 2+ (DEFERRED)
 
 ### Immediate (This Week)
 
-**Priority 1: D-21 — Notebook 1: Model Selection & Embedding Baseline**
+**Priority 1: D-23 — Notebook 3: Multi-Layer Enrichment (GO/NO-GO DECISION POINT)**
 
-- **Start:** Now. All prerequisites complete (Track A done, R-01/R-02/R-03 done, D-20 done, Master Strategy amended).
-- **What:** Design and implement the first Colab notebook. Multi-model comparison (v2-moe vs. v1.5 vs. BGE-M3), baseline RAG evaluation against 36 ground-truth queries, chunking pipeline implementation (Hybrid Semantic + Fixed-Window per R-02), model selection decision.
-- **Effort:** 1-2 days
-- **Output:** Selected embedding model, baseline retrieval metrics, reusable data ingestion pipeline
-- **Why:** D-21 is the foundation for all subsequent notebooks. Model selection determines chunking parameters for D-22 onward.
-- **Key inputs:** `D-20-test-corpus-preparation.md` (field mapping, ground-truth queries), `R-01-02-03-research-findings.md` (model specs, chunking parameters, ChromaDB patterns)
-- **Key question to resolve first:** Is `nomic-embed-text-v1.5` available through Ollama? (OQ-D20-2)
+- **Start:** Now. All prerequisites complete (D-21 baseline done, D-22 single-layer done, both .ipynb notebooks generated).
+- **What:** Implement the full 8-layer context enrichment (Corpus, Domain, Entity, Authority, Temporal, Relational, Section, Content) and compare against both D-21 (baseline) and D-22 (single-layer). Statistical significance test determines whether multi-layer enrichment is worth the additional complexity.
+- **Effort:** 2-3 days
+- **Output:** Multi-layer enrichment metrics, 3-way comparison (D-21 vs D-22 vs D-23), Wilcoxon signed-rank p-values, GO/NO-GO decision
+- **Why:** **This is the critical experiment.** D-23 determines whether FractalRecall's core hypothesis — that hierarchical structural context improves retrieval — is validated. If YES (GO): proceed with D-24-D-28. If NO (NO-GO): simplify to metadata filtering + single-layer enrichment.
+- **Key inputs:** `D-21-notebook1-baseline-spec.md` (infrastructure), `D-22-notebook2-single-layer-spec.md` (comparison baseline), `COLAB-SESSION-CONTEXT.md` (8-layer template in §"The 8 Context Layers")
+- **Key design decision:** Uses only the model selected by D-21. The 8-layer enrichment prefix consumes ~50-150 tokens (v2-moe) or ~200-500 tokens (v1.5/BGE-M3).
+- **Before starting D-23:** Execute D-21 and D-22 notebooks in Colab to get actual baseline and single-layer results.
+- **Also:** Update COLAB-SESSION-CONTEXT.md (D-32) to reflect 512-token finding, multi-model results, and field mapping patterns.
 
 **Completed:**
 
@@ -220,6 +224,8 @@ PHASE 2+ (DEFERRED)
 - ✅ **D-14** — LLM Integration Specification completed (~1770 lines, 4 LLM features with full prompt templates)
 - ✅ **R-01, R-02, R-03** — Pre-prototyping research complete. Critical 512-token finding documented. Master Strategy and Design Proposal amended. See `R-01-02-03-research-findings.md`.
 - ✅ **D-20** — Test Corpus Preparation complete (~530 lines). 67-file corpus assessed, field mapping strategy defined, 36 ground-truth queries created. See `D-20-test-corpus-preparation.md`.
+- ✅ **D-21** — Notebook 1: Model Selection & Embedding Baseline complete (~3300 lines + .ipynb). 3-model comparison, evaluation pipeline, model selection decision matrix. See `D-21-notebook1-baseline-spec.md` and `D21-baseline.ipynb`.
+- ✅ **D-22** — Notebook 2: Single-Layer Enrichment complete (~2900 lines + .ipynb). Delta analysis vs D-21 baseline, Wilcoxon significance testing, parameterized model selection. See `D-22-notebook2-single-layer-spec.md` and `D22-single-layer.ipynb`.
 
 ### Next 2-3 Weeks
 
@@ -391,7 +397,7 @@ D-01 ✅, D-03 ✅, D-04 ✅
 
 **Phase 0 (Foundation):** D-01 ✅, D-02 ✅, D-03 ✅, D-04 ✅, D-30 ✅, D-31 ✅, D-32 ✅, D-33 ✅, D-10 ✅, D-11 ✅, D-12 ✅
 
-**Phase 1 (Spec + Prototype):** D-13 ✅, D-14 ✅, D-15, D-20, D-21–D-28
+**Phase 1 (Spec + Prototype):** D-13 ✅, D-14 ✅, D-15, D-20 ✅, D-21 ✅, D-22 ✅, D-23–D-28
 
 **Phase 2 (Implementation):** D-42, D-43, D-44, D-40, D-41
 
@@ -411,8 +417,8 @@ D-01 ✅, D-03 ✅, D-04 ✅
 
 ### Track B Success
 
-- [ ] D-20 corpus contains 50+ documents with ground-truth queries
-- [ ] D-21–D-26 notebooks all executed with reproducible results
+- [x] D-20 corpus contains 50+ documents with ground-truth queries — ✅ 67 documents, 36 queries
+- [ ] D-21–D-26 notebooks all executed with reproducible results (D-21 spec complete; execution pending)
 - [ ] D-23 (multi-layer hypothesis) reaches statistical significance (p < 0.05) — either GO or NO-GO
 - [ ] D-27 (Findings) synthesizes all results with clear implications
 - [ ] D-28 (API Spec) is production-ready based on empirical validation
