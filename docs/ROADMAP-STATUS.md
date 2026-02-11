@@ -11,8 +11,8 @@
 | Category | Status | Details |
 |----------|--------|---------|
 | **Project-Wide** | On Track | Parallel execution model: Track A (docs) and Track B (prototyping) proceeding independently |
-| **Phase 0/1 Completion** | In Progress | 16 core documents + 1 research report complete; D-23 is next; 1 blocked (D-15); 5 deferred to Phase 2+ |
-| **Critical Path** | Healthy | Multi-layer enrichment hypothesis validation on schedule (D-23 is go/no-go point) |
+| **Phase 0/1 Completion** | In Progress | 17 core documents + 1 research report complete; D-23 spec + notebook ready (awaiting Colab execution); D-24 is next; 1 blocked (D-15); 5 deferred to Phase 2+ |
+| **Critical Path** | Healthy | D-23 (multi-layer enrichment GO/NO-GO) spec and notebook complete; awaiting Colab execution for empirical results |
 | **Technology Stack** | Updated | .NET 10 LTS, nomic-embed-text-v2-moe, aligned with Microsoft.Extensions.AI ecosystem |
 | **Risk Level** | Medium | Scope creep and model performance are the main concerns; mitigations in place |
 
@@ -41,7 +41,9 @@ All foundational documents complete:
 - **D-21:** Notebook 1: Model Selection & Embedding Baseline (v1.0, ~3300 lines) — ✅ **COMPLETE** — Full notebook specification with 22 cells (copy-paste-ready Python + Markdown). Three-model comparison (v2-moe, v1.5, BGE-M3). Hybrid Semantic + Fixed-Window chunking engine. 36 ground-truth queries with IR metrics (Precision@5, Recall@10, NDCG@10, MRR). Weighted decision matrix for model selection. UMAP embedding visualization. ChromaDB persistence for D-22 inheritance. **Executable `.ipynb` generated:** `D21-baseline.ipynb` (103KB, 22 cells).
 - **D-22:** Notebook 2: Single-Layer Enrichment (v1.0, ~2900 lines) — ✅ **COMPLETE** — Full notebook specification with 22 cells. Adds single-layer enrichment prefix ("This is a {type} document about {name}. Canon status: {canon}.") to each chunk before embedding. Reuses D-21's entire infrastructure. Delta analysis vs. D-21 baseline with Wilcoxon signed-rank significance testing. Parameterized model selection (SELECTED_MODEL constant, default v1.5). **Executable `.ipynb` generated:** `D22-single-layer.ipynb` (83KB, 22 cells).
 
-These 16 documents plus 1 research report represent complete Phase 0 foundation work, all five Track A documents (D-10 through D-14), and Track B preparation through first two notebooks (R-01-03, D-20, D-21, D-22).
+- **D-23:** Notebook 3: Multi-Layer Enrichment — GO/NO-GO Decision Point (v1.0, ~4470 lines) — ✅ **COMPLETE** — Full notebook specification with 22 cells. Implements 8-layer composite enrichment (Corpus, Domain, Entity, Authority, Temporal, Relational, Section, Content) with per-chunk prefix construction. 3-way comparison design (D-23 vs D-22 vs D-21). Bonferroni-corrected Wilcoxon signed-rank testing (adjusted α ≈ 0.0167). Rank-biserial correlation effect sizes. 7-criterion GO/NO-GO decision engine with programmatic evaluation. Marginal value analysis isolating layers 2-8 contribution. Layer token audit for D-24 ablation planning. DOMAIN_CATEGORY_MAP for richer entity categorization. **Executable `.ipynb` generated:** `D23-multi-layer.ipynb` (160KB, 22 cells).
+
+These 17 documents plus 1 research report represent complete Phase 0 foundation work, all five Track A documents (D-10 through D-14), and Track B preparation through the first three notebooks (R-01-03, D-20, D-21, D-22, D-23).
 
 ---
 
@@ -78,8 +80,8 @@ These 16 documents plus 1 research report represent complete Phase 0 foundation 
 | **D-20** | ✅ DONE | D-02 ✅ | ~530 lines | Test Corpus Preparation — 67-file corpus audit, field mapping, 36 ground-truth queries |
 | **D-21** | ✅ DONE | D-20 ✅ | ~3300 lines | Notebook 1: Model Selection & Embedding Baseline — 22-cell spec, 3-model comparison, chunking engine, evaluation pipeline |
 | **D-22** | ✅ DONE | D-21 ✅ | ~2900 lines | Notebook 2: Single-Layer Enrichment — 22-cell spec + .ipynb, delta analysis vs D-21, Wilcoxon significance test |
-| **D-23** | Blocked on D-22 | D-22 | 2-3 days | **Notebook 3: Multi-layer enrichment** — GO/NO-GO POINT |
-| **D-24** | Blocked on D-23 | D-23 | 1-2 days | Notebook 4: Layer ablation (parallelizable with D-25) |
+| **D-23** | ✅ DONE | D-22 ✅ | ~4470 lines | **Notebook 3: Multi-layer enrichment** — GO/NO-GO POINT — 22-cell spec + .ipynb, 8-layer enrichment, 3-way comparison, Bonferroni-corrected Wilcoxon, 7-criterion GO/NO-GO engine |
+| **D-24** | 🔵 NEXT | D-23 ✅ | 1-2 days | Notebook 4: Layer ablation (parallelizable with D-25) |
 | **D-25** | Blocked on D-23 | D-23 | 2-3 days | Notebook 5: Embedding strategy comparison (parallelizable with D-24) |
 | **D-26** | Blocked on D-24/D-25 | D-24 and D-25 | 2-3 days | Notebook 6: Cross-domain validation |
 | **D-27** | Blocked on all notebooks | D-21–D-26 | 2-3 days | Prototyping Findings Document — synthesis of results |
@@ -151,9 +153,9 @@ PHASE 2+ (DEFERRED)
 | D-20 | Test Corpus Preparation | FR | ✅ DONE | High | D-02, D-10 ✅ | D-21 ✅ | ~530 lines | Corpus audit (67 files, 388K words), D-10 alignment analysis, field mapping strategy, 36 ground-truth queries across 5 types. Critical finding: corpus uses different field names than D-10 (mapping layer needed). |
 | D-21 | Notebook 1: Model Selection & Embedding Baseline | FR | ✅ DONE | High | D-20 ✅ | D-22 | ~3300 lines | 22-cell notebook spec: 3-model comparison (v2-moe, v1.5, BGE-M3), Hybrid Semantic + Fixed-Window chunking, 36-query evaluation, weighted model selection decision matrix, UMAP visualization, ChromaDB persistence |
 | D-22 | Notebook 2: Single-Layer Enrichment | FR | ✅ DONE | High | D-21 ✅ | D-23 | ~2900 lines | Single-layer enrichment prefix, delta analysis vs D-21 baseline, Wilcoxon significance test, parameterized model selection |
-| D-23 | Notebook 3: Multi-Layer Enrichment | FR | 🔵 BLOCKED | **CRITICAL** | D-22 | D-24, D-25, D-27 | 2-3 days | **GO/NO-GO POINT** — determines FractalRecall scope |
-| D-24 | Notebook 4: Layer Ablation | FR | 🔵 BLOCKED | High | D-23 | D-27 | 1-2 days | Identify valuable layers (can parallelize with D-25) |
-| D-25 | Notebook 5: Strategy Comparison | FR | 🔵 BLOCKED | High | D-23 | D-27 | 2-3 days | Prefix vs. Multi-Vector vs. Hybrid (can parallelize with D-24) |
+| D-23 | Notebook 3: Multi-Layer Enrichment | FR | ✅ DONE | **CRITICAL** | D-22 ✅ | D-24, D-25, D-27 | ~4470 lines | **GO/NO-GO POINT** — 8-layer enrichment, 3-way comparison, Bonferroni-corrected Wilcoxon, 7-criterion GO/NO-GO engine, layer token audit, marginal value analysis |
+| D-24 | Notebook 4: Layer Ablation | FR | 🔵 NEXT | High | D-23 ✅ | D-27 | 1-2 days | Identify valuable layers (can parallelize with D-25) |
+| D-25 | Notebook 5: Strategy Comparison | FR | 🔵 NEXT | High | D-23 ✅ | D-27 | 2-3 days | Prefix vs. Multi-Vector vs. Hybrid (can parallelize with D-24) |
 | D-26 | Notebook 6: Cross-Domain Validation | FR | 🔵 BLOCKED | Medium | D-24, D-25 | D-27 | 2-3 days | Generalization test on non-worldbuilding corpus |
 | D-27 | Prototyping Findings Document | FR | 🔵 BLOCKED | High | D-21–D-26 | D-28 | ~600 lines | Synthesis of all Colab results |
 | D-28 | API Design Spec (Refined) | FR | 🔵 BLOCKED | High | D-27, D-02 | None | ~400 lines | Production API based on empirical validation |
@@ -206,17 +208,14 @@ PHASE 2+ (DEFERRED)
 
 ### Immediate (This Week)
 
-**Priority 1: D-23 — Notebook 3: Multi-Layer Enrichment (GO/NO-GO DECISION POINT)**
+**Priority 1: D-24 — Notebook 4: Layer Ablation Study** (conditionally depends on D-23 GO decision)
 
-- **Start:** Now. All prerequisites complete (D-21 baseline done, D-22 single-layer done, both .ipynb notebooks generated).
-- **What:** Implement the full 8-layer context enrichment (Corpus, Domain, Entity, Authority, Temporal, Relational, Section, Content) and compare against both D-21 (baseline) and D-22 (single-layer). Statistical significance test determines whether multi-layer enrichment is worth the additional complexity.
-- **Effort:** 2-3 days
-- **Output:** Multi-layer enrichment metrics, 3-way comparison (D-21 vs D-22 vs D-23), Wilcoxon signed-rank p-values, GO/NO-GO decision
-- **Why:** **This is the critical experiment.** D-23 determines whether FractalRecall's core hypothesis — that hierarchical structural context improves retrieval — is validated. If YES (GO): proceed with D-24-D-28. If NO (NO-GO): simplify to metadata filtering + single-layer enrichment.
-- **Key inputs:** `D-21-notebook1-baseline-spec.md` (infrastructure), `D-22-notebook2-single-layer-spec.md` (comparison baseline), `COLAB-SESSION-CONTEXT.md` (8-layer template in §"The 8 Context Layers")
-- **Key design decision:** Uses only the model selected by D-21. The 8-layer enrichment prefix consumes ~50-150 tokens (v2-moe) or ~200-500 tokens (v1.5/BGE-M3).
-- **Before starting D-23:** Execute D-21 and D-22 notebooks in Colab to get actual baseline and single-layer results.
-- **Also:** Update COLAB-SESSION-CONTEXT.md (D-32) to reflect 512-token finding, multi-model results, and field mapping patterns.
+- **Start:** After D-23 Colab execution and GO/NO-GO decision.
+- **What:** Systematically remove layers to measure individual contributions. Order layers by token cost and information value. Build "minimum viable layers" configuration.
+- **Effort:** 1-2 days
+- **Why:** Even with a GO from D-23, we need to know which layers matter most for the C# production implementation and token budget optimization.
+
+**Also Next:** D-25 (Notebook 5: Embedding Strategy Comparison) — can be parallelized with D-24 since both depend only on D-23.
 
 **Completed:**
 
@@ -226,12 +225,14 @@ PHASE 2+ (DEFERRED)
 - ✅ **D-20** — Test Corpus Preparation complete (~530 lines). 67-file corpus assessed, field mapping strategy defined, 36 ground-truth queries created. See `D-20-test-corpus-preparation.md`.
 - ✅ **D-21** — Notebook 1: Model Selection & Embedding Baseline complete (~3300 lines + .ipynb). 3-model comparison, evaluation pipeline, model selection decision matrix. See `D-21-notebook1-baseline-spec.md` and `D21-baseline.ipynb`.
 - ✅ **D-22** — Notebook 2: Single-Layer Enrichment complete (~2900 lines + .ipynb). Delta analysis vs D-21 baseline, Wilcoxon significance testing, parameterized model selection. See `D-22-notebook2-single-layer-spec.md` and `D22-single-layer.ipynb`.
+- ✅ **D-23** — Notebook 3: Multi-Layer Enrichment — GO/NO-GO Decision Point complete (~4470 lines + .ipynb). 8-layer composite enrichment, 3-way comparison, Bonferroni-corrected Wilcoxon testing, 7-criterion GO/NO-GO engine, marginal value analysis, layer token audit. See `D-23-notebook3-multi-layer-spec.md` and `D23-multi-layer.ipynb`. **Awaiting Colab execution.**
 
 ### Next 2-3 Weeks
 
 **Track B execution:**
-- D-21–D-26 (Notebooks) — Execute sequentially. Each 1-2 days, except D-23 (2-3 days, critical path).
-- D-23 is the go/no-go point. Schedule a decision review after D-23 completes.
+- D-21, D-22, D-23 specs and notebooks complete. Execute D-21 → D-22 → D-23 in Colab sequentially.
+- D-23 execution produces GO/NO-GO decision. Schedule decision review after D-23 Colab run completes.
+- D-24 and D-25 spec work can proceed in parallel while awaiting Colab results.
 
 **After D-23 Go/No-Go:**
 - If GO: Continue D-24–D-26 (parallelizable), then D-27/D-28.
