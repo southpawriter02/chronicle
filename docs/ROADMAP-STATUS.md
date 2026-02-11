@@ -1,6 +1,6 @@
 # Chronicle + FractalRecall: Roadmap Status Overview
 
-**Date Generated:** 2026-02-10
+**Date Generated:** 2026-02-11
 **Version:** 1.0
 **Reference:** Derived from `Chronicle-FractalRecall-Master-Strategy.md`
 
@@ -11,7 +11,7 @@
 | Category | Status | Details |
 |----------|--------|---------|
 | **Project-Wide** | On Track | Parallel execution model: Track A (docs) and Track B (prototyping) proceeding independently |
-| **Phase 0/1 Completion** | In Progress | 11 core documents complete; 4 in-progress; 1 blocked; 5 deferred to Phase 2+ |
+| **Phase 0/1 Completion** | In Progress | 14 core documents + 1 research report complete; D-21 is next; 1 blocked (D-15); 5 deferred to Phase 2+ |
 | **Critical Path** | Healthy | Multi-layer enrichment hypothesis validation on schedule (D-23 is go/no-go point) |
 | **Technology Stack** | Updated | .NET 10 LTS, nomic-embed-text-v2-moe, aligned with Microsoft.Extensions.AI ecosystem |
 | **Risk Level** | Medium | Scope creep and model performance are the main concerns; mitigations in place |
@@ -33,8 +33,13 @@ All foundational documents complete:
 - **D-10:** Lore File Schema Specification (v0.2.1, ~1470 lines) — ✅ **COMPLETE** — formal Chronicle data model with 12 default entity types, comprehensive examples, JSON Schema definitions. Amended to v0.2.1 with `supersedes` field and §4.8 Superseding Mechanics.
 - **D-11:** Canon Workflow Specification (v0.1.1-draft, ~1250 lines) — ✅ **COMPLETE** — content lifecycle state machine with 3 ceremony tiers, 6 workflows, superseding mechanics, branch conventions, merge semantics, validation rules, changelog integration, 7 edge cases. Incorporates all 7 locked design decisions (OQ-D11-1 through OQ-D11-7). §9.4 mapping table updated to reflect actual D-12 rule IDs.
 - **D-12:** Validation Rule Catalog (v0.1.1-draft, ~2900 lines) — ✅ **COMPLETE** — 39 deterministic validation rules across 3 tiers (12 schema, 17 structural, 10 semantic), 3 assertion rule types (`temporal_bound`, `value_constraint`, `pattern_match`), apocryphal relaxation modifier, standardized error message format. Incorporates all 6 locked design decisions (OQ-D12-1 through OQ-D12-6). Verified against Master Strategy §6.3 and all design decisions.
+- **D-13:** CLI Command Reference (v0.1.0-draft, ~1670 lines) — ✅ **COMPLETE** — 12 CLI commands across 3 phases (8 Phase 2 core, 2 Phase 3 integration, 2 Phase 4 LLM-powered). Global options, exit code reference, output format specifications, configuration reference, cross-reference index. Verified against D-10, D-11, D-12, and D-01 §4.7.
+- **D-14:** LLM Integration Specification (v0.1.0-draft, ~1770 lines) — ✅ **COMPLETE** — Four LLM features (contradiction detection, merge analysis, lore suggestions, stub generation) with complete prompt templates, response schemas, parsing logic, report formats, error handling, and performance characteristics. Soft axiom deep validation. Prose-vs-frontmatter consistency checking (resolves OQ-5). Provider abstraction interface (`ILlmProvider`). Configuration reference. Three design decisions (OQ-D14-1 through OQ-D14-3). Verified against Master Strategy §6.3 and all upstream dependencies.
 
-These 11 documents represent complete Phase 0 foundation work plus the first three Track A documents.
+- **R-01-02-03:** Research Findings (v1.0, ~550 lines) — ✅ **COMPLETE** — Pre-prototyping due diligence for three research tasks. R-01: nomic-embed-text-v2-moe has 512-token context window (CRITICAL — not 8,192 as previously assumed). R-02: Hybrid Semantic + Fixed-Window chunking recommended. R-03: ChromaDB metadata filtering viable with JSON serialization workaround for arrays. Master Strategy and Design Proposal amended.
+- **D-20:** Test Corpus Preparation (v1.0, ~530 lines) — ✅ **COMPLETE** — 67-file Aethelgard corpus assessed (388K words). Frontmatter audit (92/100 quality score). D-10 schema alignment gap analysis with field mapping strategy. 36 ground-truth queries across 5 types (single-hop, multi-hop, authority-sensitive, temporal-scoped, exploratory). Coverage gap analysis.
+
+These 14 documents plus 1 research report represent complete Phase 0 foundation work, all five Track A documents (D-10 through D-14), and Track B preparation (R-01-03, D-20).
 
 ---
 
@@ -42,22 +47,23 @@ These 11 documents represent complete Phase 0 foundation work plus the first thr
 
 ### Track A — Chronicle Documentation Sprint
 
-**Sequential chain (D-11 → D-12 → D-13):**
+**Sequential chain (D-10 → D-11 → D-12 → D-13) — COMPLETE:**
 
-| Document | Status | Dependencies | Est. Effort | Notes |
+| Document | Status | Dependencies | Actual Effort | Notes |
 |-----------|--------|-------------|------------|-------|
+| **D-10** | ✅ DONE | D-01 ✅ | ~1470 lines | Lore File Schema Specification — 12 entity types, JSON Schema definitions |
 | **D-11** | ✅ DONE | D-10 ✅ | ~1250 lines | Canon Workflow Specification — state machine, 3 ceremony tiers, 6 workflows, superseding, branch conventions, merge, changelog, 7 edge cases |
 | **D-12** | ✅ DONE | D-10 ✅, D-11 ✅ | ~2900 lines | Validation Rule Catalog — 39 rules across 3 tiers, 3 assertion rule types, 6 design decisions |
-| **D-13** | NEXT | D-10 ✅, D-11 ✅, D-12 ✅ | 2-3 days | CLI Command Reference — every command with syntax and examples |
+| **D-13** | ✅ DONE | D-10 ✅, D-11 ✅, D-12 ✅ | ~1670 lines | CLI Command Reference — 12 commands across 3 phases, exit codes, output formats, config reference |
 
-**Parallel track (can start anytime):**
+**Parallel track:**
 
-| Document | Status | Dependencies | Est. Effort | Notes |
+| Document | Status | Dependencies | Actual Effort | Notes |
 |-----------|--------|-------------|------------|-------|
-| **D-14** | READY | D-01 only | 2-3 days | LLM Integration Specification — prompts, schemas, report formats |
-| **D-15** | BLOCKED | D-10, D-02, Track B results | TBD | Integration Design Document — waits for Colab findings (go/no-go point) |
+| **D-14** | ✅ DONE | D-01 ✅ | ~1770 lines | LLM Integration Specification — 4 features, prompt templates, response schemas, parsing, reports, OQ-5 resolved |
+| **D-15** | 🔴 BLOCKED | D-10 ✅, D-02 ✅, Track B results | TBD | Integration Design Document — waits for Colab findings (go/no-go point) |
 
-**Recommended execution:** D-10 ✅ → D-11 ✅ → D-12 ✅ → D-13 (now), with D-14 as a parallel break when context-switching helps. D-15 waits for D-23 decision point.
+**Track A status:** ✅ **All actionable documents complete.** D-10 through D-14 are drafted and verified. Only D-15 remains, blocked on Track B results (D-23 go/no-go decision). Milestone 2 (Track A Docs Sprint) is achieved.
 
 ---
 
@@ -98,13 +104,13 @@ COMPLETED (Phase 0 Foundation)
 ├─ D-10: Lore Schema ✅
 └─ D-11: Canon Workflow ✅
 
-TRACK A: CHRONICLE DOCUMENTATION (Phase 1, Deterministic)
+TRACK A: CHRONICLE DOCUMENTATION (Phase 1, Deterministic) ✅ ALL ACTIONABLE DOCS COMPLETE
 ├─ D-11: Canon Workflow ✅ ← D-10 ✅
 │  └─ D-12: Validation Rules ✅ ← D-10 ✅, D-11 ✅
-│     └─ D-13: CLI Commands ← D-10 ✅, D-11 ✅, D-12 ✅
+│     └─ D-13: CLI Commands ✅ ← D-10 ✅, D-11 ✅, D-12 ✅
 │
-└─ D-14: LLM Integration ← D-01 ✅ [INDEPENDENT, RUN IN PARALLEL]
-
+├─ D-14: LLM Integration ✅ ← D-01 ✅ [INDEPENDENT, COMPLETED IN PARALLEL]
+│
 └─ D-15: Integration Design ← D-10 ✅, D-02 ✅, TRACK B RESULTS [BLOCKED]
 
 TRACK B: FRACTALRECALL PROTOTYPING (Phase 0/1, Empirical)
@@ -137,10 +143,10 @@ PHASE 2+ (DEFERRED)
 | D-10 | Lore File Schema Specification | CHR | ✅ DONE | **CRITICAL** | D-01 | D-11, D-12, D-13, D-15 | ~1470 lines | Data model: 12 entity types (faction, character, entity, locale, event, timeline, system, axiom, item, document, term, meta), fields, validation constraints, JSON Schema, 13 examples |
 | D-11 | Canon Workflow Specification | CHR | ✅ DONE | High | D-10 ✅ | D-12, D-13 | ~1250 lines | Content lifecycle: 4 states, 12 transitions, 3 ceremony tiers, 6 workflows, superseding mechanics, branch conventions, merge semantics, validation rules, changelog, 7 edge cases. All 7 design decisions (OQ-D11-1–7) incorporated. |
 | D-12 | Validation Rule Catalog | CHR | ✅ DONE | High | D-10 ✅, D-11 ✅ | D-13 | ~2900 lines | 39 validation rules across 3 tiers, 3 assertion rule types, 6 design decisions. Verified against Master Strategy §6.3 and all design decisions. |
-| D-13 | CLI Command Reference | CHR | 🔵 NEXT | Medium | D-10 ✅, D-11 ✅, D-12 ✅ | None | ~600 lines | Every command with syntax, examples, exit codes |
-| D-14 | LLM Integration Specification | CHR | ✅ READY | Medium | D-01 | None | ~400 lines | Prompts, schemas, report formats (independent, can run parallel) |
+| D-13 | CLI Command Reference | CHR | ✅ DONE | Medium | D-10 ✅, D-11 ✅, D-12 ✅ | None | ~1670 lines | 12 commands across 3 phases, exit codes, output formats, configuration reference |
+| D-14 | LLM Integration Specification | CHR | ✅ DONE | Medium | D-01 ✅ | None | ~1770 lines | 4 LLM features, prompt templates, response schemas, parsing, reports. OQ-5 resolved. |
 | D-15 | Integration Design Document | Both | 🔴 BLOCKED | Low | D-10, D-02, Track B | None | ~300 lines | How Chronicle consumes FractalRecall (waits on D-23 go/no-go) |
-| D-20 | Test Corpus Preparation Guide | FR | ✅ READY | High | D-02 | D-21 | ~250 lines | Export, frontmatter, ground-truth queries |
+| D-20 | Test Corpus Preparation | FR | ✅ DONE | High | D-02, D-10 ✅ | D-21 | ~530 lines | Corpus audit (67 files, 388K words), D-10 alignment analysis, field mapping strategy, 36 ground-truth queries across 5 types. Critical finding: corpus uses different field names than D-10 (mapping layer needed). |
 | D-21 | Notebook 1: Baseline RAG | FR | 🔵 BLOCKED | High | D-20 | D-22 | 1-2 days | Standard RAG baseline on Aethelgard corpus |
 | D-22 | Notebook 2: Single-Layer Enrichment | FR | 🔵 BLOCKED | High | D-21 | D-23 | 1-2 days | Contextual Retrieval replication |
 | D-23 | Notebook 3: Multi-Layer Enrichment | FR | 🔵 BLOCKED | **CRITICAL** | D-22 | D-24, D-25, D-27 | 2-3 days | **GO/NO-GO POINT** — determines FractalRecall scope |
@@ -165,13 +171,15 @@ PHASE 2+ (DEFERRED)
 
 ## Research Tasks (Pre/During/Post Prototyping)
 
-### Must Complete Before Track B Starts
+### Must Complete Before Track B Starts — ✅ ALL COMPLETE
 
-| ID | Topic | Purpose | Est. Effort | Informs |
-|----|-------|---------|------------|----------|
-| **R-01** | `nomic-embed-text-v2-moe` long-prefix behavior | How does MoE attend to enriched inputs? | 2-3 hrs | D-21 model tuning |
-| **R-02** | Optimal chunking for worldbuilding Markdown | Heading-based vs. fixed-window vs. hybrid | 3-4 hrs | D-21 implementation |
-| **R-03** | ChromaDB metadata filtering capabilities | Verify filter types for Approach C | 1-2 hrs | D-25 implementation |
+| ID | Topic | Status | Findings | Reference |
+|----|-------|--------|----------|-----------|
+| **R-01** | `nomic-embed-text-v2-moe` long-prefix behavior | ✅ DONE | **CRITICAL: 512-token context window, NOT 8,192.** MoE architecture (8 experts, top-2 routing), RoPE positional encoding, Matryoshka at 768/256 dims. Prefix enrichment must be radically compressed (~100 tokens) or model reconsidered. Recommend multi-model comparison in D-21. | R-01-02-03 §2 |
+| **R-02** | Optimal chunking for worldbuilding Markdown | ✅ DONE | Hybrid Semantic + Fixed-Window recommended. Parameters: min 128, target 300-400 (v2-moe) or 500-700 (v1.5/BGE-M3), max 450/1024 tokens, 64-128 token overlap. Special handling for glossary entries, tables, narrative, YAML frontmatter. | R-01-02-03 §3 |
+| **R-03** | ChromaDB metadata filtering capabilities | ✅ DONE | Scalar filters comprehensive ($eq, $ne, $gt, $in, $and, $or). **No native array metadata support** — requires JSON string serialization + post-query Python filtering for factions_mentioned, locations_mentioned, etc. Pre-query filtering is efficient. Pin to ChromaDB 1.x. | R-01-02-03 §4 |
+
+**Consolidated findings document:** `chronicle/docs/R-01-02-03-research-findings.md` (2026-02-11)
 
 ### Can Occur During Prototyping
 
@@ -196,44 +204,34 @@ PHASE 2+ (DEFERRED)
 
 ### Immediate (This Week)
 
-**Priority 1: D-13 — CLI Command Reference**
+**Priority 1: D-21 — Notebook 1: Model Selection & Embedding Baseline**
 
-- **Start:** Now. D-10 ✅, D-11 ✅, and D-12 ✅ are complete, providing schema, workflow, and validation foundations.
-- **What:** Every `chronicle` command with syntax, arguments, flags, exit codes, and examples. References D-12 rule IDs for `chronicle validate` output.
-- **Effort:** 2-3 days
-- **Output:** Completes the Track A documentation sprint (Milestone 2)
-- **Why:** This is the final critical path item for Track A. Once complete, Chronicle has a full specification suite for Phase 2 implementation.
+- **Start:** Now. All prerequisites complete (Track A done, R-01/R-02/R-03 done, D-20 done, Master Strategy amended).
+- **What:** Design and implement the first Colab notebook. Multi-model comparison (v2-moe vs. v1.5 vs. BGE-M3), baseline RAG evaluation against 36 ground-truth queries, chunking pipeline implementation (Hybrid Semantic + Fixed-Window per R-02), model selection decision.
+- **Effort:** 1-2 days
+- **Output:** Selected embedding model, baseline retrieval metrics, reusable data ingestion pipeline
+- **Why:** D-21 is the foundation for all subsequent notebooks. Model selection determines chunking parameters for D-22 onward.
+- **Key inputs:** `D-20-test-corpus-preparation.md` (field mapping, ground-truth queries), `R-01-02-03-research-findings.md` (model specs, chunking parameters, ChromaDB patterns)
+- **Key question to resolve first:** Is `nomic-embed-text-v1.5` available through Ollama? (OQ-D20-2)
 
-**Priority 2 (Parallel): D-20 — Test Corpus Preparation**
+**Completed:**
 
-- **Start:** Immediately in parallel with D-13. D-02 ✅ is complete and defines requirements.
-- **What:** Export Aethelgard from Notion → add YAML frontmatter (using D-10 ✅ as reference) → generate 30+ ground-truth test queries with manual relevance judgments → store in `fractal-recall/notebooks/test-corpus/`.
-- **Effort:** 3-4 days
-- **Output:** Unblocks D-21 (first notebook)
-- **Why:** Track B can run independently. Starting both tracks now maximizes parallelism and delivers results faster.
-
-**Priority 3 (Parallel): D-14 — LLM Integration Specification**
-
-- **Start:** This week alongside D-13, especially when context-switching helps.
-- **What:** Define prompts, response schemas, report formats for LLM features (contradiction detection, merge analysis, lore suggestions, stub generation).
-- **Effort:** 2-3 days
-- **Output:** Unblocks Phase 2 LLM implementation
-- **Why:** Independent of D-13. Can be done anytime. Good for mental breaks between technical docs.
+- ✅ **D-13** — CLI Command Reference completed (~1670 lines, 12 commands across 3 phases)
+- ✅ **D-14** — LLM Integration Specification completed (~1770 lines, 4 LLM features with full prompt templates)
+- ✅ **R-01, R-02, R-03** — Pre-prototyping research complete. Critical 512-token finding documented. Master Strategy and Design Proposal amended. See `R-01-02-03-research-findings.md`.
+- ✅ **D-20** — Test Corpus Preparation complete (~530 lines). 67-file corpus assessed, field mapping strategy defined, 36 ground-truth queries created. See `D-20-test-corpus-preparation.md`.
 
 ### Next 2-3 Weeks
 
-**After D-12:**
-- D-13 (CLI Command Reference) — 2-3 days. Completes Track A documentation sprint.
-
-**In Parallel:**
+**Track B execution:**
 - D-21–D-26 (Notebooks) — Execute sequentially. Each 1-2 days, except D-23 (2-3 days, critical path).
 - D-23 is the go/no-go point. Schedule a decision review after D-23 completes.
 
 **After D-23 Go/No-Go:**
 - If GO: Continue D-24–D-26 (parallelizable), then D-27/D-28.
-- If NO-GO: Reassess FractalRecall scope (simplify to metadata filtering + Contextual Retrieval single-layer). Still proceed with Chronicle docs.
+- If NO-GO: Reassess FractalRecall's scope (simplify to metadata filtering + Contextual Retrieval single-layer). Chronicle specs are complete regardless.
 
-**After Both Tracks Complete:**
+**After Track B Complete:**
 - D-15 (Integration Design Document) — write after D-28 ✅ provides API spec and D-23 decision is known.
 - Phase 2 kickoff: Have full spec suite and empirical validation in hand.
 
@@ -251,14 +249,14 @@ PHASE 2+ (DEFERRED)
 
 ---
 
-### Milestone 2: Track A Docs Sprint Complete
+### Milestone 2: Track A Docs Sprint Complete ✅
 
-**Status:** In Progress (D-12 ✅ complete; D-13 remaining)
-**Target:** ~1 week (Mid February 2026)
-**Blocking:** D-11 ✅, D-12 ✅, D-13 completion
-**Outcome:** Complete specification suite for Chronicle implementation
+**Status:** ACHIEVED
+**Date:** 2026-02-10
+**Items:** D-10 ✅, D-11 ✅, D-12 ✅, D-13 ✅, D-14 ✅
+**Outcome:** Complete specification suite for Chronicle implementation (excluding D-15, which is blocked on Track B results)
 
-**What it means:** Chronicle's domain model, validation rules, canon workflow, and CLI interface are fully documented. Phase 2 implementation can begin with zero ambiguity.
+**What it means:** Chronicle's data model (D-10), content lifecycle (D-11), validation rules (D-12), CLI interface (D-13), and LLM integration (D-14) are fully documented. Phase 2 implementation of all deterministic features can begin with zero ambiguity. Phase 4 LLM features have complete prompt templates and response specifications. Only D-15 (Integration Design) remains, blocked on Track B's go/no-go decision at D-23.
 
 ---
 
@@ -366,7 +364,7 @@ PHASE 2+ (DEFERRED)
 | OQ-2 | Custom entity types from day one? | D-10 (Schema Spec) | ✅ Resolved: Yes, via `.chronicle/schema/custom/` (§8) |
 | OQ-3 | Fixed vs. free-form relationship types? | D-10 (Schema Spec) | ✅ Resolved: Recommended vocabulary (~30 types) with free-form allowed (§7.2–§7.3) |
 | OQ-4 | Optimal chunking strategy for worldbuilding Markdown? | R-02 + D-21 | Pending |
-| OQ-5 | Should Chronicle validate prose against frontmatter? | D-14 (LLM Spec) | Pending |
+| OQ-5 | Should Chronicle validate prose against frontmatter? | D-14 (LLM Spec) | ✅ Resolved: Yes, as part of `--deep` validation. Prose-vs-frontmatter consistency checking specified in D-14 §10. |
 | OQ-6 | Migration path from Notion for Aethelgard? | D-20 (Corpus Prep) | Pending |
 | FR-OQ-1 | Optimal layer ordering in embedded text? | D-23 (Notebook 3) | Pending |
 | FR-OQ-2 | Natural language vs. structured tokens for relational layer? | D-23 (Notebook 3) | Pending |
@@ -381,7 +379,7 @@ PHASE 2+ (DEFERRED)
 ### By Project
 
 **Chronicle (Track A):**
-D-01 ✅, D-03 ✅, D-04 ✅, D-10 ✅, D-11 ✅, D-12 ✅, D-13, D-14, D-15, D-42, D-43, D-44
+D-01 ✅, D-03 ✅, D-04 ✅, D-10 ✅, D-11 ✅, D-12 ✅, D-13 ✅, D-14 ✅, D-15, D-42, D-43, D-44
 
 **FractalRecall (Track B):**
 D-02 ✅, D-20, D-21–D-28, D-30 ✅, D-31 ✅, D-32 ✅, D-33 ✅, D-40, D-41
@@ -393,7 +391,7 @@ D-01 ✅, D-03 ✅, D-04 ✅
 
 **Phase 0 (Foundation):** D-01 ✅, D-02 ✅, D-03 ✅, D-04 ✅, D-30 ✅, D-31 ✅, D-32 ✅, D-33 ✅, D-10 ✅, D-11 ✅, D-12 ✅
 
-**Phase 1 (Spec + Prototype):** D-13, D-14, D-15, D-20, D-21–D-28
+**Phase 1 (Spec + Prototype):** D-13 ✅, D-14 ✅, D-15, D-20, D-21–D-28
 
 **Phase 2 (Implementation):** D-42, D-43, D-44, D-40, D-41
 
@@ -407,8 +405,8 @@ D-01 ✅, D-03 ✅, D-04 ✅
 
 - [x] D-11 (Canon Workflow) written and reviewed — ✅ v0.1.1-draft, ~1250 lines, all 7 design decisions incorporated, verified against Master Strategy §6.3
 - [x] D-12 (Validation Rules) complete with 20+ rule specifications — ✅ v0.1.1-draft, ~2900 lines, 39 rules across 3 tiers, all 6 design decisions incorporated, verified against Master Strategy §6.3
-- [ ] D-13 (CLI Commands) covers all planned commands
-- [ ] D-14 (LLM Integration) specifies all four LLM features
+- [x] D-13 (CLI Commands) covers all planned commands — ✅ v0.1.0-draft, ~1670 lines, 12 commands across 3 phases, verified against D-10/D-11/D-12/D-01
+- [x] D-14 (LLM Integration) specifies all four LLM features — ✅ v0.1.0-draft, ~1770 lines, 4 features with complete prompt templates/schemas/parsing/reports, OQ-5 resolved, verified against Master Strategy §6.3
 - [ ] No blockers on Phase 2 implementation; specs are unambiguous
 
 ### Track B Success
@@ -450,7 +448,7 @@ D-01 ✅, D-03 ✅, D-04 ✅
 
 - **Owner:** Ryan (with strategic planning from Claude)
 - **Derived From:** `Chronicle-FractalRecall-Master-Strategy.md`
-- **Last Updated:** 2026-02-10
+- **Last Updated:** 2026-02-11
 - **Next Review:** After D-23 (go/no-go decision) — recommend decision review meeting
 - **Update Frequency:** Weekly during active execution; sync with Master Strategy
 
